@@ -10,46 +10,34 @@
  * @return {number}
  */
 var rob = function(nums) {
-    const numsLen = nums.length;
-    const currentNums = nums.slice(1, numsLen - 1);
-    const len = currentNums.length;
-    let result = [];
-    let temp = 0;
-    let targetIndex = 0;
-    if (numsLen === 1) {
-        result = [currentNums[0]];
-    } else {
-        for (let i = 0; i < len; i++) {
-            if (i > 1) {
-                for (let j = i - 2; j >= 0; j--) {
-                    temp = Math.max(result[j], temp);
-                }
-                result[i] = temp + currentNums[i];
-            } else {
-                result[i] = currentNums[i]
-            }
-        }
-    }
-    temp = 0;
-    result.forEach((i, index) => {
-        if (temp <= i) {
-            temp = i;
-            targetIndex = index;
-        }
-    })
-    if (numsLen > 3) {
-        if (targetIndex === 0) {
-            return result[targetIndex] + nums[numsLen - 1]
-        }
-        if (targetIndex === len){
-            return result[targetIndex] + nums[0]
-        }
-        if (targetIndex !== 0 && targetIndex !== len) {
-            return result[targetIndex] + (nums[0] > nums[numsLen - 1] ? nums[0] : nums[numsLen - 1])
-        }
-    } else {
-        return nums.sort((a,b) => b-a)[0]
-    }
+  const len = nums.length;
+  if (len < 2) {
+    return nums[0]
+  }
+  const lArr = nums.slice(0, len - 1);
+  const rArr = nums.slice(1);
+  return Math.max(subRob(lArr), subRob(rArr));
+
 };
+
+var subRob = function(nums) {
+  const len = nums.length;
+  let result = [];
+  let temp = 0;
+  for (let i = 0; i < len; i++) {
+    if (i >= 2) {
+      temp = 0;
+      for (let j = i - 2; j >= 0; j--) {
+        if (result[j] > temp) {
+          temp = result[j];
+        }
+      }
+      result[i] = temp + nums[i];
+    } else {
+      result[i] = nums[i];
+    }
+  }
+  return result.sort((a, b) => b - a)[0]
+}
 // @lc code=end
 
