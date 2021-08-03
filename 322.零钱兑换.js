@@ -19,7 +19,7 @@ var coinChange = function(coins, amount) {
         // why ?
         result[j] = Math.min(result[j], result[j - coins[i]] + 1)
       }
-      // console.log(result)
+      // console.log(result)  
     }
   }
   return result[amount] !== Infinity ? result[amount] : -1
